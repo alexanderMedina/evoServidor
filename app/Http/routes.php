@@ -13,4 +13,13 @@
 
 Route::get('/', function () {
     return view('welcome');
+})->middleware(['jwt.auth']);
+
+Route::group(['middleware' => ['web']], function() {
+
+        Route::group(['prefix' => '/api'], function () {
+
+            Route::post('/login', ['as' => 'userAuthentication', 'uses' => 'SessionController@login']);
+
+        });
 });

@@ -3,49 +3,32 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Validator;
+
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
+use Illuminate\Http\Request;
+use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
-    */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
+
     protected $redirectTo = '/';
 
-    /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -55,12 +38,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
+
     protected function create(array $data)
     {
         return User::create([
@@ -69,4 +47,28 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    public function login( Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        try {
+            // attempt to verify the credentials and create a token for the user
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        } catch (JWTException $e) {
+            // something went wrong whilst attempting to encode the token
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+
+        // all good so return the token
+        return response()->json(compact('token'));
+    }
+
+
+
+
+
+
 }
