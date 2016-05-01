@@ -11,6 +11,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
+use Auth;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -20,18 +21,36 @@ class SessionController  extends Controller
 	{
 		$credentials = $request->only('email', 'password');
 
-		try {
-			// attempt to verify the credentials and create a token for the user
-			if (! $token = JWTAuth::attempt($credentials)) {
-				return response()->json(['error' => 'invalid_credentials'], 401);
-			}
-		} catch (JWTException $e) {
-			// something went wrong whilst attempting to encode the token
-			return response()->json(['error' => 'could_not_create_token'], 500);
+		if(Auth::attempt($credentials)) {
+
+			$user = Auth::user();
+
+			$user_response = $this->userResponse($user);
+
+			return response()->json($user_response,200);
+
+		} else {
+
+			$response = "the user have incorrect credentials";
+
+			return response()->json($response,422);
 		}
-		// all good so return the token
-		return response()->json(compact('token'));
 	}
 
+	private function userResponse($user = null)
+	{
 
+		$user_response = [];
+		if($user != null){
+
+			$user_response= [
+				'name' => $user->name,
+				'email' => $user->email
+			];
+
+		}
+
+		return $user_response;
+
+	}
 }

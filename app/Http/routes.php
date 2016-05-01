@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/inde', function () {
     return view('welcome');
 })->middleware(['jwt.auth']);
 
