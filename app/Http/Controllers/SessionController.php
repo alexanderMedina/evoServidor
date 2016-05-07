@@ -44,7 +44,7 @@ class SessionController  extends Controller
 		if($user != null){
 
 			$user_response= [
-				'name' => $user->name,
+				'name' => $user->lalalad,
 				'email' => $user->email
 			];
 
