@@ -32,7 +32,7 @@ class SessionController  extends Controller
 		} else {
 
 			$response = "the user have incorrect credentials";
-
+            return 1;
 			return response()->json($response,422);
 		}
 	}
@@ -44,7 +44,7 @@ class SessionController  extends Controller
 		if($user != null){
 
 			$user_response= [
-				'name' => $user->lalal0 sssa,
+				'name' => $user->name,
 				'email' => $user->email
 			];
 
