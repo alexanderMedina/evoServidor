@@ -13,7 +13,7 @@
 
 Route::get('/inde', function () {
     return view('welcome');
-})->middleware(['jwt.auth']);
+});
 
 Route::group(['middleware' => ['web']], function() {
 
