@@ -19,7 +19,9 @@ Route::group(['middleware' => ['web']], function() {
 
         Route::group(['prefix' => '/api'], function () {
 
-            Route::post('/login', ['as' => 'userAuthentication', 'uses' => 'SessionController@login']);
-
+            Route::post('/login', ['as' => 'userAuthentication', 'uses' => 'SessionController@login']
+            	);
+            Route::post('/logout', ['as' => 'userLogout', 'uses' => 'SessionController@userLogout']
+            	);
         });
 });

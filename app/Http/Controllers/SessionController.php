@@ -57,4 +57,13 @@ class SessionController  extends Controller
 		return $user_response;
 
 	}
+	
+	public function userLogout()
+	{
+		Auth::logout();
+
+		$response = "Session ended";
+		return response()->json($response,200);
+	}
+
 }
