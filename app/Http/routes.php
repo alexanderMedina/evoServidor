@@ -23,5 +23,7 @@ Route::group(['middleware' => ['web']], function() {
             	);
             Route::post('/logout', ['as' => 'userLogout', 'uses' => 'SessionController@userLogout']
             	);
+            Route::post('/create/user', ['as' => 'userCreate', 'uses' => 'SessionController@create']
+            );
         });
 });

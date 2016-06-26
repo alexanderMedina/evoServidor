@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests;
@@ -22,22 +24,12 @@ class SessionController  extends Controller
 		$credentials = $request->only('email', 'password');
 
 		if(Auth::attempt($credentials)) {
-
 			$user = Auth::user();
-
 			$user_response = $this->userResponse($user);
-
 			return response()->json($user_response,200);
-
 		} else {
-
 			$response = "the user have incorrect credentials ";
-
-
 			return response()->json($response,422);
-
-
-
 		}
 	}
 
@@ -45,25 +37,54 @@ class SessionController  extends Controller
 	{
 
 		$user_response = [];
-		if($user != null){
 
+		if($user != null) {
 			$user_response= [
 				'name' => $user->name,
 				'email' => $user->email
 			];
-
 		}
-
 		return $user_response;
-
 	}
+
+	private function setUpUser($name , $email, $password)
+	{
+
+		$user_array = [];
+
+		$user_array= [
+				'name' => $name,
+				'email' => $email,
+				'password' =>$password,
+				'remember_token'=> NULL
+			];
+
+		return $user_array;
+	}
+
 	
 	public function userLogout()
 	{
 		Auth::logout();
-
 		$response = "Session ended";
 		return response()->json($response,200);
+	}
+
+	public function create( Request $request)
+	{
+		$name = $request->only('name');
+		$email = $request->only('name');
+		$password = $request->only('name');
+		$password = Hash::make($password);
+
+		$user_array = $this->setUpUser($name, $email, $password);
+
+		$user_id = DB::table('users')->insertGetId($user_array);
+
+		$response = "the user number ".$user_id." have been created ";
+
+		return response()->json($response,200);
+
 	}
 
 }
