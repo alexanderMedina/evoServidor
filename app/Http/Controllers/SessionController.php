@@ -78,7 +78,7 @@ class SessionController  extends Controller
 		$password = Hash::make($password);
 
 		$user_array = $this->setUpUser($name, $email, $password);
-
+		
 		$user_id = DB::table('users')->insertGetId($user_array);
 
 		$response = "the user number ".$user_id." have been created ";
