@@ -53,8 +53,8 @@ class SessionController  extends Controller
 		$user_array = [];
 
 		$user_array= [
-				'name' => $name,
-				'email' => $email,
+				'name' => $name['name'],
+				'email' => $email['email'],
 				'password' =>$password,
 				'remember_token'=> NULL
 			];
@@ -73,18 +73,52 @@ class SessionController  extends Controller
 	public function create( Request $request)
 	{
 		$name = $request->only('name');
-		$email = $request->only('name');
-		$password = $request->only('name');
-		$password = Hash::make($password);
+		$email = $request->only('email');
+		$password = $request->only('password');
+		$new_password = Hash::make($password['password']);
 
-		$user_array = $this->setUpUser($name, $email, $password);
-		
+		$user_array = $this->setUpUser($name, $email, $new_password);
+
 		$user_id = DB::table('users')->insertGetId($user_array);
 
 		$response = "the user number ".$user_id." have been created ";
 
 		return response()->json($response,200);
 
+	}
+
+	public function createDog( Request $request)
+	{
+		$name = $request->only('name');
+		$gender = $request->only('gender');
+		$user_id = $request->only('user_id');
+		$age = $request->only('age');
+		$breed = $request->only('breed');
+
+		$dog_array = $this->setUpDog($name, $gender, $user_id,$age,$breed);
+
+		$dog_id = DB::table('dogs')->insertGetId($dog_array);
+
+		$response = "the dog number ".$dog_id." have been created ";
+
+		return response()->json($response,200);
+
+	}
+
+	private function setUpDog($name , $gender, $user_id,$age,$breed)
+	{
+
+		$dog_array = [];
+
+		$dog_array= [
+			'name' => $name['name'],
+			'gender' => $gender['gender'],
+			'user_id' =>$user_id['user_id'],
+			'age'=> $age['age'],
+			'breed' => $breed['breed']
+		];
+
+		return $dog_array;
 	}
 
 }
