@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Application Test Suite" tests="2" assertions="2" failures="1" errors="0" time="1.638755">
+    <testsuite name="ExampleTest" file="/home/vagrant/Code/evoServidor/tests/ExampleTest.php" tests="2" assertions="2" failures="1" errors="0" time="1.638755">
+      <testcase name="testPostCreateUser" class="ExampleTest" file="/home/vagrant/Code/evoServidor/tests/ExampleTest.php" line="10" assertions="1" time="1.480313">
+        <failure type="PHPUnit_Framework_ExpectationFailedException">ExampleTest::testPostCreateUser
+Failed asserting that 500 matches expected 200.
+
+/home/vagrant/Code/evoServidor/tests/ExampleTest.php:19
+</failure>
+      </testcase>
+      <testcase name="testPostCreateDog" class="ExampleTest" file="/home/vagrant/Code/evoServidor/tests/ExampleTest.php" line="22" assertions="1" time="0.158442"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

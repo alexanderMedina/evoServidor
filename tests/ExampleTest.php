@@ -12,7 +12,7 @@ class ExampleTest extends TestCase
         $credentials = array(
             'name' => 'alex',
             'password' => '1234',
-            'email' => 'alexs2@gmail.com'
+            'email' => 'aleds2@gmail.com'
         );
 
         $response = $this->call('POST', route('userCreate'), $credentials);
