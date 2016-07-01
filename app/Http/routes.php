@@ -25,7 +25,7 @@ Route::group(['middleware' => ['web']], function() {
 		);
 		Route::post('/create/user', ['as' => 'userCreate', 'uses' => 'SessionController@create']
 		);
-		Route::post('/create/dogs', ['as' => 'userCreate', 'uses' => 'SessionController@createDog']
+		Route::post('/create/dogs', ['as' => 'userCreateDogs', 'uses' => 'SessionController@createDog']
 		);
 	});
 });
